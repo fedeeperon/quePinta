@@ -1,31 +1,190 @@
-{% extends 'base.html' %}
 
 {% block content %}
+{% load static %}
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Que pinta </title>
+    <meta name="robots" content="noindex, follow" />
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/favicon.png' %}">
+
+    <!-- CSS
+	============================================ -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .event-card {
+            margin: 15px;
+            padding: 20px;
+            border: 1px solid #eee;
+            border-radius: 10px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, background-color 0.3s ease;
+        }
+
+        .event-card:hover {
+            transform: translateY(-5px);
+            background-color: #f7f7f7;
+        }
+
+        .event-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+        }
+
+        .event-button {
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .rbt-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 0.875rem;
+            border: 2px solid #000;
+            border-radius: 30px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: bold;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            color: #000;
+            background-color: #fff;
+        }
+
+        .rbt-btn:hover {
+            background-color: #000;
+            color: #fff;
+        }
+
+        .rbt-btn span {
+            position: relative;
+            display: inline-block;
+        }
+
+        .rbt-btn span:before {
+            content: attr(data-text);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            color: transparent;
+            text-shadow: 0 0 2px rgba(0,0,0,0.5);
+            transition: color 0.3s ease;
+        }
+
+        .rbt-btn:hover span:before {
+            color: rgba(255, 255, 255, 0.6);
+        }
+    </style>
+</head>
+
 <div class="container mt-5">
-    <h2 class="mb-4">Crear Nuevo Evento</h2>
-    <form method="post">
-        {% csrf_token %}
-        <div class="form-group">
-            <label for="id_nombre">Nombre del evento:</label>
-            {{ form.nombre }}
+    <div class="rbt-service-area bg-color-white rbt-section-gap">
+        <div class="row mb--60">
+            <div class="col-lg-12">
+                <div class="section-title text-center">
+                    <h2 class="title">Crear Nuevo Evento</h2>
+                </div>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="id_descripcion">Descripción:</label>
-            {{ form.descripcion }}
-        </div>
-        <div class="form-group">
-            <label for="id_fecha_evento">Fecha del evento:</label>
-            {{ form.fecha_evento }}
-        </div>
-        <div class="form-group">
-            <label for="id_cantidad_entradas_disponibles">Cantidad de entradas disponibles:</label>
-            {{ form.cantidad_entradas_disponibles }}
-        </div>
-        <div class="form-group">
-            <label for="id_organizacion">Organización:</label>
-            {{ form.organizacion }}
-        </div>
-        <button type="submit" class="btn btn-primary">Crear Evento</button>
-    </form>
+        
+        <!-- Formulario para crear un evento -->
+        <form method="post">
+            {% csrf_token %}
+            <div class="row">
+                
+                <!-- Campo para el nombre del evento -->
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label for="id_nombre" class="form-label">Nombre del evento:</label>
+                        {{ form.nombre }}
+                    </div>
+                </div>
+
+                <!-- Campo para la descripción del evento -->
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label for="id_descripcion" class="form-label">Descripción:</label>
+                        {{ form.descripcion }}
+                    </div>
+                </div>
+
+                <!-- Campo para la fecha del evento -->
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label for="id_fecha_evento" class="form-label">Fecha del evento:</label>
+                        {{ form.fecha_evento }}
+                    </div>
+                </div>
+
+                <!-- Campo para la cantidad de entradas disponibles -->
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label for="id_cantidad_entradas_disponibles" class="form-label">Cantidad de entradas disponibles:</label>
+                        {{ form.cantidad_entradas_disponibles }}
+                    </div>
+                </div>
+
+                <!-- Campo para el precio de las entradas -->
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label for="id_precio" class="form-label">Precio de la entrada:</label>
+                        {{ form.precio }}
+                    </div>
+                </div>
+
+                <!-- Campo para la promoción -->
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label for="id_promocion" class="form-label">Promoción (opcional):</label>
+                        {{ form.promocion }}
+                    </div>
+                </div>
+
+                <!-- Campo para seleccionar la organización del evento -->
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <label for="id_organizacion" class="form-label">Organización:</label>
+                        {{ form.organizacion }}
+                    </div>
+                </div><!-- Campo para seleccionar el tipo de entrada -->
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label for="id_tipo_entrada" class="form-label">Tipo de Entrada:</label>
+                        {{ form.tipo_entrada }}
+                    </div>
+                </div>
+                
+                <!-- Campo para seleccionar las entradas en promoción -->
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label for="id_entradas_promocion" class="form-label">Entradas Promoción:</label>
+                        {{ form.entradas_promocion }}
+                    </div>
+                </div>
+                
+
+                <!-- Botón para enviar el formulario y crear el evento -->
+                <div class="col-lg-12 text-center">
+                    <button type="submit" class="rbt-btn rbt-switch-btn btn-white btn-sm">
+                        <span data-text="Crear Evento">Crear Evento</span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    
 </div>
+<!-- Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'js/vendor/bootstrap.min.js' %}"></script>
+
 {% endblock %}

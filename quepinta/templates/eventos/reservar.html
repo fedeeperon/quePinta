@@ -1,15 +1,18 @@
+
 {% extends 'base.html' %}
 
 {% block content %}
 <div class="container mt-5">
-    <h2 class="mb-4">Reservar Evento</h2>
-    <form method="post" action="{% url 'reservar_evento' evento_id %}">
+    <h2>Confirmar Reserva</h2>
+    <p><strong>Evento:</strong> {{ evento.nombre }}</p>
+    <p><strong>Entradas:</strong> {{ cantidad }}</p>
+    <p><strong>Precio Total:</strong> {{ precio_total }}</p>
+    
+    <form method="POST">
         {% csrf_token %}
-        <div class="form-group">
-            <label for="id_cantidad">Cantidad de entradas:</label>
-            <input type="number" class="form-control" id="id_cantidad" name="cantidad" min="1" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Reservar</button>
+        <button type="submit" name="confirmar" class="btn btn-success">Confirmar</button>
+        <a href="{% url 'index' %}" class="btn btn-danger">Cancelar</a>
     </form>
+    
 </div>
 {% endblock %}

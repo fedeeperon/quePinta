@@ -2,10 +2,24 @@
 <html lang="en">
 {%load static%}
 
+
+
 <head>
+    <style>
+    .contenedor-grid {
+        display: grid;
+        place-items: center; /* centra tanto horizontal como verticalmente */
+        height: 100vh; /* altura completa de la ventana */
+    }
+
+    .centrado-grid {
+        background-color: lightgreen; /* para visualizar el bloque */
+        padding: 20px;
+    }
+</style>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Login & Register - Online Courses & Education Bootstrap5 Template</title>
+    <title>Login & Register</title>
     <meta name="robots" content="noindex, follow" />
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -37,35 +51,111 @@
     <!-- Start Header Area -->
     <header class="rbt-header rbt-header-10">
         <div class="rbt-sticky-placeholder"></div>
+        <!-- Start Header Top  -->
+        <div
+            class="rbt-header-top rbt-header-top-1 header-space-betwween bg-not-transparent bg-color-darker top-expended-activation">
+            <div class="container-fluid">
+                <div class="top-expended-wrapper">
+                    <div class="top-expended-inner rbt-header-sec align-items-center ">
+                        <div class="rbt-header-sec-col rbt-header-left d-none d-xl-block">
+                            <div class="rbt-header-content">
+                                <!-- Start Header Information List  -->
+                                <div class="header-info">
+                                    <ul class="rbt-information-list">
+                                        <li>
+                                            <a href="#"><i class="fab fa-instagram"></i>QuepintaIG<span</a>
+                                        </li>
+                                        <li>
+                                            <a href="#"><i class="fab fa-facebook-square"></i>QuepintaFB <span</a>
+                                        </li>
+                                        <li>
+                                            <a href="#"><i class="feather-phone"></i>3534248602</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!-- End Header Information List  -->
+                            </div>
+                        </div>
+                        <div class="rbt-header-sec-col rbt-header-center">
+                            <div class="rbt-header-content justify-content-start justify-content-xl-center">
+                                <div class="header-info">
+                                    <div class="rbt-header-top-news">
+                                        <div class="inner">
+                                            <div class="content">
+                                                <span
+                                                    class="rbt-badge variation-02 bg-color-primary color-white radius-round">Hot</span>
+                                                <span class="news-text"><img src="images/icons/hand-emojji.svg"
+                                                        alt=""> Fiestas en Embalse
+                                                    -25% off.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="rbt-header-sec-col rbt-header-right mt_md--10 mt_sm--10">
+                            <div class="rbt-header-content justify-content-start justify-content-lg-end">
+                                <div class="header-info d-none d-xl-block">
+                                    <ul class="social-share-transparent">
+                                        <li>
+                                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                                        </li>
+                                        <li>
+                                            <a href="#"><i class="fab fa-twitter"></i></a>
+                                        </li>
+                                        <li>
+                                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                                        </li>
+                                        <li>
+                                            <a href="#"><i class="fab fa-instagram"></i></a>
+                                        </li>
+                                    </ul>
+                                </div>
 
+                                <div class="rbt-separator d-none d-xl-block"></div>
+
+                                
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="header-info">
+                        <div class="top-bar-expended d-block d-lg-none">
+                            <button class="topbar-expend-button rbt-round-btn"><i class="feather-plus"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Header Top  -->
+        <div class="rbt-header-wrapper header-space-betwween header-sticky centrado-grip">
+            <div class="container-fluid centrado-grip">
+                <div class="mainbar-row rbt-navigation-center align-items-center centrado-grip">
+                    
+                    
+                    <div class="centrado-grip">
+                        <div class="rbt-main-navigation d-none d-xl-block centrado-grip">
+                            <nav class="mainmenu-nav">
+                                <ul class="mainmenu">
+                                    <li class="with-megamenu has-menu-child-item position-static centrado-grip contenedor-grid">
+                                        <a href="{% url 'index'%}">Home <i class=""></i></a>
+                                    </li>
+                                    <li class="with-megamenu has-menu-child-item centrado-grip">
+                                        <a href="{% url 'lista_eventos'%}">Eventos <i class=""></i></a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                    
+
+                    <div class="header-right">
         <div class="rbt-header-wrapper header-space-betwween header-sticky">
             <div class="container-fluid">
                 <div class="mainbar-row rbt-navigation-center align-items-center">
                     
 
-                    <div class="rbt-main-navigation d-none d-xl-block">
-                        <nav class="mainmenu-nav">
-                            <ul class="mainmenu">
-                                <li class="with-megamenu has-menu-child-item position-static" style="text-align: center; display: inline-block; margin: 10px;">
-                                    <a href="{% url 'index' %}" style="background-color: #1a1a1a; color: white; padding: 5px 40px; border-radius: 10px; text-decoration: none; font-weight: bold;">
-                                        Home
-                                    </a>
-                                </li>
-                                
-                                <li class="with-megamenu has-menu-child-item" style="text-align: center; display: inline-block; margin: 10px;">
-                                    <a href="{% url 'lista_eventos' %}" style="background-color: #1a1a1a; color: white; padding: 5px 40px; border-radius: 10px; text-decoration: none; font-weight: bold;">
-                                        Eventos
-                                    </a>
-                                </li>
-                                
-                                    
-                                    
-                                    <!-- End Mega Menu  -->
-                                </li>
-
-                            </ul>
-                        </nav>
-                    </div>
+                    
 
                     <div class="header-right">
 

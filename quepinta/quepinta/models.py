@@ -33,6 +33,7 @@ class Estado(models.Model):
 class Promocion(models.Model):
     nombre = models.CharField(max_length=100)
     descripcion = models.TextField()
+    descuento = models.DecimalField(max_digits=5, decimal_places=2)
 
     def __str__(self):
         return self.nombre
@@ -47,23 +48,25 @@ class Organizacion(models.Model):
     def __str__(self):
         return self.nombre
 
+# Modelo TipoEntrada
+class TipoEntrada(models.Model):
+    nombre = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.nombre
+
 # Modelo Evento
+
 class Evento(models.Model):
     nombre = models.CharField(max_length=100)
     descripcion = models.TextField()
     fecha_evento = models.DateField()
     cantidad_entradas_disponibles = models.IntegerField()
-    organizacion = models.ForeignKey(Organizacion, on_delete=models.PROTECT)
-    creador = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-
+    precio = models.DecimalField(max_digits=10, decimal_places=2)
     
-
-    def __str__(self):
-        return self.nombre
-
-# Modelo TipoEntrada
-class TipoEntrada(models.Model):
-    nombre = models.CharField(max_length=100)
+    organizacion = models.CharField(max_length=100)
+    tipo_entrada = models.CharField(max_length=100, blank=False)
+    entradas_promocion = models.PositiveIntegerField(blank=False)
 
     def __str__(self):
         return self.nombre
