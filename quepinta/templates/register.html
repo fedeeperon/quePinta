@@ -12,6 +12,8 @@
 {%load static%}
 {%load custom_filter %}
 
+
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -162,7 +164,7 @@
                             </li>
 
                             <li class="account-access rbt-user-wrapper d-none d-xl-block">
-                                <a href="#"><i class="feather-user"></i>Admin</a>
+                                <a href="#"><i class="feather-user"></i>{{ request.user.username }}</a>
                                 <div class="rbt-user-menu-list-wrapper">
                                     <div class="inner">
                                         <div class="rbt-admin-profile">
@@ -170,7 +172,7 @@
                                                 <img src="images/team/avatar.jpg" alt="User Images">
                                             </div>
                                             <div class="admin-info">
-                                                <span class="name">Fazlay Elahi Rafi</span>
+                                                <span class="name">{{ request.user.username }}</span>
                                                 <a class="rbt-btn-link color-primary" href="profile.html">View
                                                     Profile</a>
                                             </div>
@@ -1428,44 +1430,41 @@ v>
         <div class="row gy-5 row--30">
 
             <!-- Register Form -->
+            <!-- templates/auth/register.html -->
             <div class="col-lg-6">
                 <div class="rbt-contact-form contact-form-style-1 max-width-auto">
-                    <h3 class="title">Registrate pa</h3>
+                    <h3 class="title">Register</h3>
                     {% if messages %}
                         {% for message in messages %}
                             <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">{{ message }}</div>
                         {% endfor %}
                     {% endif %}
-                    <form class="max-width-auto" method="post" action="{% url 'index' %}">
+                    <form class="max-width-auto" method="post" action="{% url 'register' %}">
                         {% csrf_token %}
                         {{ form.non_field_errors }}
-            
                         <div class="form-group">
-                            {{ form.username|add_class:"form-control" }}
-                            <label for="{{ form.username.id_for_label }}" class="form-label">Username *</label>
+                            {{ form.username }}
+                            <label for="{{ form.username.id_for_label }}">Username *</label>
                             <span class="focus-border"></span>
                             {{ form.username.errors }}
                         </div>
-                        
                         <div class="form-group">
-                            {{ form.password1|add_class:"form-control" }}
-                            <label for="{{ form.password1.id_for_label }}" class="form-label">Password *</label>
+                            {{ form.password1 }}
+                            <label for="{{ form.password1.id_for_label }}">Password *</label>
                             <span class="focus-border"></span>
                             {{ form.password1.errors }}
                         </div>
-                        
                         <div class="form-group">
-                            {{ form.password2|add_class:"form-control" }}
-                            <label for="{{ form.password2.id_for_label }}" class="form-label">Confirm Password *</label>
+                            {{ form.password2 }}
+                            <label for="{{ form.password2.id_for_label }}">Confirm Password *</label>
                             <span class="focus-border"></span>
                             {{ form.password2.errors }}
                         </div>
-                        
-            
                         <div class="form-submit-group">
                             <button type="submit" class="rbt-btn btn-md btn-gradient hover-icon-reverse w-100">
                                 <span class="icon-reverse-wrapper">
-                                    <span class="btn-text"> Estoy listo! </span>
+                                    <span class="btn-text">Register</span>
+                                    <span class="btn-icon"><i class="feather-arrow-right"></i></span>
                                     <span class="btn-icon"><i class="feather-arrow-right"></i></span>
                                 </span>
                             </button>
