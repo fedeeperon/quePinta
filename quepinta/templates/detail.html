@@ -1,0 +1,11 @@
+{% extends "service.html" %}
+{% load static %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Create a new service</h1>
+                <form method="POST" action="{% url 'create' %}">
+                    {% csrf_token %}
+                    <div class="form-group
+{%endblock%}
