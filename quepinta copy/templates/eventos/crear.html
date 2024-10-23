@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Crear Nuevo Evento</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="id_nombre">Nombre del evento:</label>
+            {{ form.nombre }}
+        </div>
+        <div class="form-group">
+            <label for="id_descripcion">Descripción:</label>
+            {{ form.descripcion }}
+        </div>
+        <div class="form-group">
+            <label for="id_fecha_evento">Fecha del evento:</label>
+            {{ form.fecha_evento }}
+        </div>
+        <div class="form-group">
+            <label for="id_cantidad_entradas_disponibles">Cantidad de entradas disponibles:</label>
+            {{ form.cantidad_entradas_disponibles }}
+        </div>
+        <div class="form-group">
+            <label for="id_organizacion">Organización:</label>
+            {{ form.organizacion }}
+        </div>
+        <button type="submit" class="btn btn-primary">Crear Evento</button>
+    </form>
+</div>
+{% endblock %}
