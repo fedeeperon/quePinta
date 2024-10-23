@@ -1,7 +1,51 @@
-<!-- templates/auth/register.html -->
-<h2>Register</h2>
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Register</button>
-</form>
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="col-lg-6">
+    <div class="rbt-contact-form contact-form-style-1 max-width-auto">
+        <h3 class="title">Register</h3>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+        <form class="max-width-auto" method="post" action="{% url 'register' %}">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            <div class="form-group">
+                {{ form.username }}
+                <label for="{{ form.username.id_for_label }}">Username *</label>
+                <span class="focus-border"></span>
+                {{ form.username.errors }}
+            </div>
+            <div class="form-group">
+                {{ form.email }}
+                <label for="{{ form.email.id_for_label }}">Email address *</label>
+                <span class="focus-border"></span>
+                {{ form.email.errors }}
+            </div>
+            <div class="form-group">
+                {{ form.password1 }}
+                <label for="{{ form.password1.id_for_label }}">Password *</label>
+                <span class="focus-border"></span>
+                {{ form.password1.errors }}
+            </div>
+            <div class="form-group">
+                {{ form.password2 }}
+                <label for="{{ form.password2.id_for_label }}">Confirm Password *</label>
+                <span class="focus-border"></span>
+                {{ form.password2.errors }}
+            </div>
+            <div class="form-submit-group">
+                <button type="submit" class="rbt-btn btn-md btn-gradient hover-icon-reverse w-100">
+                    <span class="icon-reverse-wrapper">
+                        <span class="btn-text">Register</span>
+                        <span class="btn-icon"><i class="feather-arrow-right"></i></span>
+                        <span class="btn-icon"><i class="feather-arrow-right"></i></span>
+                    </span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

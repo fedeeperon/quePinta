@@ -22,6 +22,8 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.contrib import messages
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+
 
 class ReservaListView(View):
     def get(self, request):
@@ -38,13 +40,6 @@ class CrearReservaView(View):
         # Mostrar formulario para crear una nueva reserva
         return render(request, 'create.html')
     
-def listar_eventos(request):
-    eventos = Evento.objects.all()
-    return render(request, 'lista_eventos.html', {'eventos': eventos})
-
-def listar_reservas(request):
-    reservas = Reserva.objects.all()
-    return render(request, 'lista_reservas.html', {'reservas': reservas})
 
 
 
@@ -56,20 +51,25 @@ def register(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            messages.success(request, 'Registro exitoso. Bienvenido!')
-            return redirect('index')
+            messages.success(request, 'Registro exitoso. ¡Bienvenido!')
+            return redirect('index')  # Asegúrate de tener una URL con el nombre 'index'
         else:
             messages.error(request, 'Error en el registro. Por favor, verifica los datos.')
     else:
         form = UserCreationForm()
-    return render(request, 'register.html', {'form': form})
+    return render(request, 'auth/register.html', {'form': form})
 
+
+def login_view(request):
+    login_form = AuthenticationForm()
+    register_form = UserCreationForm()
+    return render(request, 'auth/login.html', {'login_form': login_form, 'register_form': register_form})
 
 # Eventos disponibles
 
 class EventListView(ListView):
     model = Evento
-    template_name = 'lista.html'
+    template_name = 'eventos.html'
     context_object_name = 'eventos'
     
     

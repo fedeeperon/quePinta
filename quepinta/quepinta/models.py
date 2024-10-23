@@ -54,7 +54,9 @@ class Evento(models.Model):
     fecha_evento = models.DateField()
     cantidad_entradas_disponibles = models.IntegerField()
     organizacion = models.ForeignKey(Organizacion, on_delete=models.PROTECT)
-    creador = models.ForeignKey(User, on_delete=models.CASCADE)
+    creador = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+
+    
 
     def __str__(self):
         return self.nombre
