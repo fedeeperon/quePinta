@@ -3,7 +3,6 @@ from .models import Evento, Reserva
 
 from django.shortcuts import render, redirect
 
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import AuthenticationForm
@@ -18,7 +17,6 @@ from django.shortcuts import render, get_object_or_404
 from django.views import View
 from .models import Reserva, Evento, Estado
 
-from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.contrib import messages
@@ -57,13 +55,13 @@ def register(request):
             messages.error(request, 'Error en el registro. Por favor, verifica los datos.')
     else:
         form = UserCreationForm()
-    return render(request, 'auth/register.html', {'form': form})
+    return render(request, 'register.html', {'form': form})
 
 
 def login_view(request):
     login_form = AuthenticationForm()
     register_form = UserCreationForm()
-    return render(request, 'auth/login.html', {'login_form': login_form, 'register_form': register_form})
+    return render(request, 'login.html', {'login_form': login_form, 'register_form': register_form})
 
 # Eventos disponibles
 
