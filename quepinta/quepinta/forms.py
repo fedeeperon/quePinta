@@ -26,3 +26,5 @@ class PromocionForm(forms.ModelForm):
     class Meta:
         model = Promocion
         fields = ['nombre', 'descripcion', 'descuento', 'cantidad_minima_entradas']
+        
+

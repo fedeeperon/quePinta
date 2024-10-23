@@ -5,21 +5,10 @@
 
 
 <head>
-    <style>
-    .contenedor-grid {
-        display: grid;
-        place-items: center; /* centra tanto horizontal como verticalmente */
-        height: 100vh; /* altura completa de la ventana */
-    }
 
-    .centrado-grid {
-        background-color: lightgreen; /* para visualizar el bloque */
-        padding: 20px;
-    }
-</style>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Login & Register</title>
+    <title>Login ALPHA V1</title>
     <meta name="robots" content="noindex, follow" />
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -128,19 +117,19 @@
             </div>
         </div>
         <!-- End Header Top  -->
-        <div class="rbt-header-wrapper header-space-betwween header-sticky centrado-grip">
-            <div class="container-fluid centrado-grip">
-                <div class="mainbar-row rbt-navigation-center align-items-center centrado-grip">
+        <div class="rbt-header-wrapper header-space-betwween header-sticky ">
+            <div class="container-fluid ">
+                <div class="mainbar-row rbt-navigation-center align-items-center ">
                     
                     
-                    <div class="centrado-grip">
-                        <div class="rbt-main-navigation d-none d-xl-block centrado-grip">
+                    
+                        <div class="rbt-main-navigation d-none d-xl-block ">
                             <nav class="mainmenu-nav">
                                 <ul class="mainmenu">
-                                    <li class="with-megamenu has-menu-child-item position-static centrado-grip contenedor-grid">
+                                    <li class="with-megamenu has-menu-child-item position-static ">
                                         <a href="{% url 'index'%}">Home <i class=""></i></a>
                                     </li>
-                                    <li class="with-megamenu has-menu-child-item centrado-grip">
+                                    <li class="with-megamenu has-menu-child-item ">
                                         <a href="{% url 'lista_eventos'%}">Eventos <i class=""></i></a>
                                     </li>
                                 </ul>
@@ -1165,7 +1154,7 @@
                                             <li><a href="checkout.html">Checkout</a></li>
                                             <li><a href="wishlist.html">Wishlist Page</a></li>
                                             <li><a href="my-account.html">My Acount</a></li>
-                                            <li><a href="login.html">Login & Register</a></li>
+                                            <li><a href="login.html">Inicia sesion pa!</a></li>
                                             <li><a href="subscription.html">Subscription</a></li>
                                         </ul>
                                     </div>
@@ -1510,13 +1499,13 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="breadcrumb-inner text-center">
-                        <h2 class="title">Login & Register</h2>
+                        <h2 class="title">Inicia sesion pa! </h2>
                         <ul class="page-list">
                             <li class="rbt-breadcrumb-item"><a href="{% url 'index'%}">Home</a></li>
                             <li>
                                 <div class="icon-right"><i class="feather-chevron-right"></i></div>
                             </li>
-                            <li class="rbt-breadcrumb-item active">Login & Register</li>
+                            <li class="rbt-breadcrumb-item active">Login</li>
                         </ul>
                     </div>
                 </div>
@@ -1532,7 +1521,7 @@
             <!-- Login Form -->
             <div class="col-lg-6">
                 <div class="rbt-contact-form contact-form-style-1 max-width-auto">
-                    <h3 class="title">Log In</h3>
+                    <h3 class="title">Inicia y arranca la joda! </h3>
             
                     {% if messages %}
                         {% for message in messages %}
