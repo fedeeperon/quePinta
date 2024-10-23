@@ -14,9 +14,9 @@ import os
 from pathlib import Path
 
 
-
-LOGIN_REDIRECT_URL = 'home'
-LOGOUT_REDIRECT_URL = 'home' 
+LOGIN_URL ='login.html'
+LOGIN_REDIRECT_URL = 'service.html'
+LOGOUT_REDIRECT_URL = 'service.html' 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 

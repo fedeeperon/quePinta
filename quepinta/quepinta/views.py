@@ -4,10 +4,12 @@ from .models import Evento, Reserva
 from django.shortcuts import render, redirect
 
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import login
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.forms import AuthenticationForm
 
 from django.views.generic import ListView, CreateView
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 
 def index(request):
     return render(request, 'service.html')
@@ -18,7 +20,8 @@ from .models import Reserva, Evento, Estado
 
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
-
+from django.utils import timezone
+from django.contrib import messages
 
 class ReservaListView(View):
     def get(self, request):
@@ -53,7 +56,10 @@ def register(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('home')
+            messages.success(request, 'Registro exitoso. Bienvenido!')
+            return redirect('index')
+        else:
+            messages.error(request, 'Error en el registro. Por favor, verifica los datos.')
     else:
         form = UserCreationForm()
     return render(request, 'register.html', {'form': form})
@@ -69,33 +75,53 @@ class EventListView(ListView):
     
     
 # Vista para crear eventos
-class EventCreateView(CreateView):
+class EventCreateView(LoginRequiredMixin, CreateView):
     model = Evento
-    fields = ['fecha_evento', 'nombre', 'descripcion', 'cantidad_entradas_disponible']
+    fields = ['nombre', 'descripcion', 'fecha_evento', 'cantidad_entradas_disponibles', 'organizacion']
     template_name = 'eventos/crear.html'
     success_url = reverse_lazy('lista_eventos')
-    
-    
-    
-# Logica de requwrimento de inicio sesion para reservar eventos
+
+    def form_valid(self, form):
+        form.instance.creador = self.request.user
+        return super().form_valid(form)
+
+# Logica de requerimento de inicio sesion para reservar eventos
 @login_required
 def reservar_evento(request, evento_id):
     evento = get_object_or_404(Evento, id=evento_id)
-    estado_reservado = Estado.objects.get(nombre='Reservado')  # Asegúrate de tener este estado en la base de datos
-    cantidad = request.POST.get('cantidad')
+    if request.method == 'POST':
+        estado_reservado = Estado.objects.get(nombre='Reservado')
+        cantidad = int(request.POST.get('cantidad', 0))
 
-    # Lógica para verificar disponibilidad
-    if evento.cantidad_entradas_disponible >= int(cantidad):
-        reserva = Reserva.objects.create(
-            usuario=request.user,
-            evento=evento,
-            estado=estado_reservado,
-            cantidad=cantidad
-        )
-        # Reducir la cantidad de entradas disponibles
-        evento.cantidad_entradas_disponible -= int(cantidad)
-        evento.save()
-        return redirect('lista_eventos')
+        if evento.cantidad_entradas_disponibles >= cantidad:
+            reserva = Reserva.objects.create(
+                usuario=request.user,
+                evento=evento,
+                estado=estado_reservado,
+                cantidad=cantidad,
+                fecha_reserva=timezone.now().date()
+            )
+            evento.cantidad_entradas_disponibles -= cantidad
+            evento.save()
+            return redirect('lista_eventos')
+        else:
+            return render(request, 'error.html', {'mensaje': 'No hay suficientes entradas disponibles.'})
+    
+    return render(request, 'eventos/reservar.html', {'evento_id': evento_id})
+    
+
+    
+def user_login(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('lista_eventos')  # Cambia 'lista_eventos' según la página a la que quieras redirigir después del login
     else:
-        # Manejar el caso cuando no hay suficientes entradas
-        return render(request, 'error.html', {'mensaje': 'No hay suficientes entradas disponibles.'})
+        form = AuthenticationForm()
+
+    return render(request, 'login.html', {'form': form, 'register_url': reverse('register')})

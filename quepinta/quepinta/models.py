@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 from django.db import models
 
 # Clase abstracta para reutilización de los campos comunes
@@ -40,7 +40,7 @@ class Promocion(models.Model):
 # Modelo Organizaciones
 class Organizacion(models.Model):
     nombre = models.CharField(max_length=100)
-    duenio = models.CharField(max_length=100)
+    dueño = models.CharField(max_length=100)
     telefono = models.CharField(max_length=15)
     purchase_parking_pass = models.BooleanField(default=False)
 
@@ -54,6 +54,7 @@ class Evento(models.Model):
     fecha_evento = models.DateField()
     cantidad_entradas_disponibles = models.IntegerField()
     organizacion = models.ForeignKey(Organizacion, on_delete=models.PROTECT)
+    creador = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.nombre
