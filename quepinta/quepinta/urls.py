@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from . import views  # Import the views module
-from .views import register, EventListView, EventCreateView, reservar_evento  # Import the register, EventListView, EventCreateView, and reservar_evento views
+from .views import EventListView, EventCreateView, reservar_evento  # Import the register, EventListView, EventCreateView, and reservar_evento views
 from django.contrib.auth import views as auth_views  # Import auth_views
 
 
@@ -27,11 +27,12 @@ urlpatterns = [
     path('', views.index, name='index'),
     
     
-    path('login/', views.user_login, name='login'),
-    path('register/', views.register, name='register'),
-    
-
+    path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+     path('logout/', views.register, name='register'),
+
+
+
 
     
     
@@ -47,7 +48,7 @@ urlpatterns = [
     
     
     path('eventos/', EventListView.as_view(), name='lista_eventos'),
-    path('eventos/crear/', EventCreateView.as_view(), name='crear_evento'),
+    path('crear-evento/', EventCreateView.as_view(), name='crear_evento'),
     path('eventos/reservar/<int:evento_id>/', reservar_evento, name='reservar_evento'),
     
 ]

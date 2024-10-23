@@ -16,14 +16,19 @@ def index(request):
 
 from django.shortcuts import render, get_object_or_404
 from django.views import View
-from .models import Reserva, Evento, Estado
+from .models import Reserva, Evento, Estado, Promocion
 
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-
+from django.http import JsonResponse
+from django.shortcuts import redirect
+from decimal import Decimal
+from django.shortcuts import render, get_object_or_404
+from django.utils import timezone
+from django.contrib import messages
 
 class ReservaListView(View):
     def get(self, request):
@@ -77,40 +82,60 @@ class EventListView(ListView):
 # Vista para crear eventos
 class EventCreateView(LoginRequiredMixin, CreateView):
     model = Evento
-    fields = ['nombre', 'descripcion', 'fecha_evento', 'cantidad_entradas_disponibles', 'organizacion']
+    fields = ['nombre', 'descripcion', 'fecha_evento', 'cantidad_entradas_disponibles', 'organizacion', 'precio', 'tipo_entrada', 'entradas_promocion']
     template_name = 'eventos/crear.html'
-    success_url = reverse_lazy('lista_eventos')
+    success_url = reverse_lazy('index')
 
     def form_valid(self, form):
         form.instance.creador = self.request.user
         return super().form_valid(form)
 
+    def form_invalid(self, form):
+        print(form.errors)
+        return super().form_invalid(form)
+
+
 # Logica de requerimento de inicio sesion para reservar eventos
 @login_required
 def reservar_evento(request, evento_id):
     evento = get_object_or_404(Evento, id=evento_id)
+    promociones = Promocion.objects.all()
+
     if request.method == 'POST':
         estado_reservado = Estado.objects.get(nombre='Reservado')
         cantidad = int(request.POST.get('cantidad', 0))
+        precio_entrada = evento.precio
+        promocion_id = request.POST.get('promocion')
+        promocion = Promocion.objects.get(id=promocion_id) if promocion_id else None
+        descuento = Decimal(0)
+
+        # Aplicar descuento si el número de entradas cumple con la promoción
+        if promocion and cantidad >= evento.entradas_promocion:
+            descuento = Decimal(promocion.descuento)
+            precio_total = (precio_entrada * Decimal(cantidad)) * (Decimal(1) - descuento / Decimal(100))
+        else:
+            precio_total = precio_entrada * Decimal(cantidad)
 
         if evento.cantidad_entradas_disponibles >= cantidad:
             reserva = Reserva.objects.create(
                 usuario=request.user,
-                evento=evento,
+                entrada=evento,
                 estado=estado_reservado,
                 cantidad=cantidad,
+                promocion=promocion,
                 fecha_reserva=timezone.now().date()
             )
+
             evento.cantidad_entradas_disponibles -= cantidad
             evento.save()
+
+            messages.success(request, f"¡Reserva confirmada! Precio final: {precio_total}")
             return redirect('lista_eventos')
         else:
-            return render(request, 'error.html', {'mensaje': 'No hay suficientes entradas disponibles.'})
-    
-    return render(request, 'eventos/reservar.html', {'evento_id': evento_id})
-    
+            messages.error(request, 'No hay suficientes entradas disponibles.')
 
-    
+    return render(request, 'eventos/reservar.html', {'evento': evento, 'promociones': promociones})
+
 def user_login(request):
     if request.method == 'POST':
         form = AuthenticationForm(request, data=request.POST)
