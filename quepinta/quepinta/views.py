@@ -149,4 +149,4 @@ def user_login(request):
     else:
         form = AuthenticationForm()
 
-    return render(request, 'login.html', {'form': form, 'register_url': reverse('register')})
+    return render(request, 'login.html', {'form': form, 'register': reverse('register')})
