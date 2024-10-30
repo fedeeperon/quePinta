@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.db import models
+
 
 # Clase abstracta para reutilización de los campos comunes
 class UsuarioBase(models.Model):
@@ -83,14 +83,21 @@ class Entrada(models.Model):
         return self.no_entrada
 
 # Modelo Reserva
+
+
 class Reserva(models.Model):
-    fecha_reserva = models.DateField()
     no_reserva = models.CharField(max_length=100, unique=True)
-    entrada = models.ForeignKey(Entrada, on_delete=models.PROTECT)
-    estado = models.ForeignKey(Estado, on_delete=models.PROTECT)
+    usuario = models.ForeignKey(User, on_delete=models.PROTECT)
+    evento = models.ForeignKey('Evento', on_delete=models.PROTECT, null=True, default=None)  # Modificado
+    estado = models.ForeignKey('Estado', on_delete=models.PROTECT)
     cantidad = models.IntegerField()
-    usuario = models.ForeignKey(Usuario, on_delete=models.PROTECT)
-    promocion = models.ForeignKey(Promocion, on_delete=models.PROTECT, null=True, blank=True)
+    promocion = models.ForeignKey('Promocion', on_delete=models.PROTECT, null=True, blank=True)
+    fecha_reserva = models.DateField()
 
     def __str__(self):
         return self.no_reserva
+
+    def save(self, *args, **kwargs):
+        if not self.no_reserva:
+            self.no_reserva = f"R{self.fecha_reserva.strftime('%Y%m%d')}-{Reserva.objects.count() + 1:04d}"
+        super().save(*args, **kwargs)

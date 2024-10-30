@@ -66,9 +66,23 @@ def register(request):
 
 
 def login_view(request):
-    login_form = AuthenticationForm()
-    register_form = UserCreationForm()
-    return render(request, 'login.html', {'login_form': login_form, 'register_form': register_form})
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('lista_eventos')  # Redirección a la página de eventos después del login
+            else:
+                messages.error(request, 'Por favor, verifica los datos.')
+        else:
+            messages.error(request, 'Por favor, verifica los datos.')
+    else:
+        form = AuthenticationForm()
+
+    return render(request, 'login.html', {'form': form})
 
 # Eventos disponibles
 
@@ -109,7 +123,6 @@ def reservar_evento(request, evento_id):
         promocion = Promocion.objects.get(id=promocion_id) if promocion_id else None
         descuento = Decimal(0)
 
-        # Aplicar descuento si el número de entradas cumple con la promoción
         if promocion and cantidad >= evento.entradas_promocion:
             descuento = Decimal(promocion.descuento)
             precio_total = (precio_entrada * Decimal(cantidad)) * (Decimal(1) - descuento / Decimal(100))
@@ -119,7 +132,7 @@ def reservar_evento(request, evento_id):
         if evento.cantidad_entradas_disponibles >= cantidad:
             reserva = Reserva.objects.create(
                 usuario=request.user,
-                entrada=evento,
+                evento=evento,  # Cambiado de entrada a evento
                 estado=estado_reservado,
                 cantidad=cantidad,
                 promocion=promocion,
@@ -145,7 +158,7 @@ def user_login(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('lista_eventos')  # Cambia 'lista_eventos' según la página a la que quieras redirigir después del login
+                return redirect('lista_eventos')  # Asegúrate de que esta URL exista
     else:
         form = AuthenticationForm()
 
