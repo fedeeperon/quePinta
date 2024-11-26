@@ -1,190 +1,221 @@
-
 {% block content %}
 {% load static %}
 
-<html lang="en">
-
+<!DOCTYPE html>
+<html lang="es">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Que pinta </title>
+    <title>Que pinta - Crear Nuevo Evento</title>
     <meta name="robots" content="noindex, follow" />
-    <meta name="description" content="">
+    <meta name="description" content="Crea un nuevo evento en Que pinta">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+    
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/favicon.png' %}">
 
-    <!-- CSS
-	============================================ -->
+    <!-- CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
     <style>
-        .event-card {
-            margin: 15px;
-            padding: 20px;
-            border: 1px solid #eee;
-            border-radius: 10px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s, background-color 0.3s ease;
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            font-family: 'Inter', sans-serif;
         }
-
-        .event-card:hover {
-            transform: translateY(-5px);
-            background-color: #f7f7f7;
+        .event-form-container {
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            padding: 30px;
+            margin-top: 50px;
+            margin-bottom: 50px;
         }
-
-        .event-title {
-            font-size: 1.25rem;
-            font-weight: bold;
-        }
-
-        .event-button {
-            margin-top: 10px;
+        .form-title {
+            color: #333;
+            font-weight: 700;
+            margin-bottom: 30px;
             text-align: center;
         }
-
-        .rbt-btn {
-            display: inline-block;
-            padding: 10px 20px;
-            font-size: 0.875rem;
-            border: 2px solid #000;
+        .form-group label {
+            font-weight: 600;
+            color: #555;
+        }
+        .form-control {
+            border-radius: 10px;
+            border: 1px solid #ced4da;
+            padding: 10px 15px;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+        .form-control:focus {
+            border-color: #80bdff;
+            box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+        }
+        .btn-create-event {
+            background-color: #007bff;
+            border: none;
             border-radius: 30px;
+            color: white;
+            font-weight: 600;
+            padding: 10px 30px;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: bold;
-            transition: background-color 0.3s ease, color 0.3s ease;
-            color: #000;
-            background-color: #fff;
+            transition: all 0.3s ease;
         }
-
-        .rbt-btn:hover {
-            background-color: #000;
-            color: #fff;
+        .btn-create-event:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
-
-        .rbt-btn span {
-            position: relative;
-            display: inline-block;
+        .form-icon {
+            font-size: 18px;
+            color: #007bff;
+            margin-right: 10px;
         }
-
-        .rbt-btn span:before {
-            content: attr(data-text);
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            color: transparent;
-            text-shadow: 0 0 2px rgba(0,0,0,0.5);
-            transition: color 0.3s ease;
+        .input-group-text {
+            background-color: #e9ecef;
+            border: 1px solid #ced4da;
+            border-radius: 10px 0 0 10px;
         }
-
-        .rbt-btn:hover span:before {
-            color: rgba(255, 255, 255, 0.6);
+        .was-validated .form-control:invalid {
+            border-color: #dc3545;
+            padding-right: calc(1.5em + .75rem);
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%23dc3545' viewBox='0 0 12 12'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right calc(.375em + .1875rem) center;
+            background-size: calc(.75em + .375rem) calc(.75em + .375rem);
         }
     </style>
 </head>
+<body>
 
-<div class="container mt-5">
-    <div class="rbt-service-area bg-color-white rbt-section-gap">
-        <div class="row mb--60">
-            <div class="col-lg-12">
-                <div class="section-title text-center">
-                    <h2 class="title">Crear Nuevo Evento</h2>
+<div class="container event-form-container">
+    <h2 class="form-title">Crear Nuevo Evento</h2>
+    
+    <form method="post" class="needs-validation" novalidate>
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="id_nombre">
+                    <i class="fas fa-signature form-icon"></i>Nombre del evento
+                </label>
+                <input type="text" class="form-control" id="id_nombre" name="nombre" required>
+                <div class="invalid-feedback">
+                    Por favor, ingrese el nombre del evento.
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="id_fecha_evento">
+                    <i class="far fa-calendar-alt form-icon"></i>Fecha del evento
+                </label>
+                <input type="date" class="form-control" id="id_fecha_evento" name="fecha_evento" required>
+                <div class="invalid-feedback">
+                    Por favor, seleccione la fecha del evento.
                 </div>
             </div>
         </div>
-        
-        <!-- Formulario para crear un evento -->
-        <form method="post">
-            {% csrf_token %}
-            <div class="row">
-                
-                <!-- Campo para el nombre del evento -->
-                <div class="col-lg-6">
-                    <div class="form-group">
-                        <label for="id_nombre" class="form-label">Nombre del evento:</label>
-                        {{ form.nombre }}
-                    </div>
-                </div>
 
-                <!-- Campo para la descripción del evento -->
-                <div class="col-lg-6">
-                    <div class="form-group">
-                        <label for="id_descripcion" class="form-label">Descripción:</label>
-                        {{ form.descripcion }}
-                    </div>
-                </div>
+        <div class="mb-3">
+            <label for="id_descripcion">
+                <i class="fas fa-align-left form-icon"></i>Descripción
+            </label>
+            <textarea class="form-control" id="id_descripcion" name="descripcion" rows="3" required></textarea>
+            <div class="invalid-feedback">
+                Por favor, proporcione una descripción del evento.
+            </div>
+        </div>
 
-                <!-- Campo para la fecha del evento -->
-                <div class="col-lg-6">
-                    <div class="form-group">
-                        <label for="id_fecha_evento" class="form-label">Fecha del evento:</label>
-                        {{ form.fecha_evento }}
-                    </div>
-                </div>
-
-                <!-- Campo para la cantidad de entradas disponibles -->
-                <div class="col-lg-6">
-                    <div class="form-group">
-                        <label for="id_cantidad_entradas_disponibles" class="form-label">Cantidad de entradas disponibles:</label>
-                        {{ form.cantidad_entradas_disponibles }}
-                    </div>
-                </div>
-
-                <!-- Campo para el precio de las entradas -->
-                <div class="col-lg-6">
-                    <div class="form-group">
-                        <label for="id_precio" class="form-label">Precio de la entrada:</label>
-                        {{ form.precio }}
-                    </div>
-                </div>
-
-                <!-- Campo para la promoción -->
-                <div class="col-lg-6">
-                    <div class="form-group">
-                        <label for="id_promocion" class="form-label">Promoción (opcional):</label>
-                        {{ form.promocion }}
-                    </div>
-                </div>
-
-                <!-- Campo para seleccionar la organización del evento -->
-                <div class="col-lg-12">
-                    <div class="form-group">
-                        <label for="id_organizacion" class="form-label">Organización:</label>
-                        {{ form.organizacion }}
-                    </div>
-                </div><!-- Campo para seleccionar el tipo de entrada -->
-                <div class="col-lg-6">
-                    <div class="form-group">
-                        <label for="id_tipo_entrada" class="form-label">Tipo de Entrada:</label>
-                        {{ form.tipo_entrada }}
-                    </div>
-                </div>
-                
-                <!-- Campo para seleccionar las entradas en promoción -->
-                <div class="col-lg-6">
-                    <div class="form-group">
-                        <label for="id_entradas_promocion" class="form-label">Entradas Promoción:</label>
-                        {{ form.entradas_promocion }}
-                    </div>
-                </div>
-                
-
-                <!-- Botón para enviar el formulario y crear el evento -->
-                <div class="col-lg-12 text-center">
-                    <button type="submit" class="rbt-btn rbt-switch-btn btn-white btn-sm">
-                        <span data-text="Crear Evento">Crear Evento</span>
-                    </button>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="id_cantidad_entradas_disponibles">
+                    <i class="fas fa-ticket-alt form-icon"></i>Cantidad de entradas disponibles
+                </label>
+                <input type="number" class="form-control" id="id_cantidad_entradas_disponibles" name="cantidad_entradas_disponibles" required>
+                <div class="invalid-feedback">
+                    Por favor, ingrese la cantidad de entradas disponibles.
                 </div>
             </div>
-        </form>
-    </div>
-    
+            <div class="col-md-6 mb-3">
+                <label for="id_precio">
+                    <i class="fas fa-dollar-sign form-icon"></i>Precio de la entrada
+                </label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                    </div>
+                    <input type="number" class="form-control" id="id_precio" name="precio" step="0.01" required>
+                    <div class="invalid-feedback">
+                        Por favor, ingrese el precio de la entrada.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="id_tipo_entrada">
+                    <i class="fas fa-tags form-icon"></i>Tipo de Entrada
+                </label>
+                <select class="form-control" id="id_tipo_entrada" name="tipo_entrada" required>
+                    <option value="">Seleccione un tipo</option>
+                    <option value="general">General</option>
+                    <option value="vip">VIP</option>
+                </select>
+                <div class="invalid-feedback">
+                    Por favor, seleccione un tipo de entrada.
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="id_entradas_promocion">
+                    <i class="fas fa-percentage form-icon"></i>Entradas Promoción
+                </label>
+                <input type="number" class="form-control" id="id_entradas_promocion" name="entradas_promocion" required>
+                <div class="invalid-feedback">
+                    Por favor, ingrese la cantidad de entradas en promoción.
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="mb-3">
+            <label for="id_organizacion">
+                <i class="fas fa-align-left form-icon"></i>Organización
+            </label>
+            <input type="text" class="form-control" id="id_organizacion" name="organizacion" required>
+            <div class="invalid-feedback">
+                Por favor, ingrese la organización.
+            </div>
+        </div>
+        
+
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-create-event">
+                <i class="fas fa-plus-circle mr-2"></i>Crear Evento
+            </button>
+        </div>
+    </form>
 </div>
-<!-- Bootstrap JS -->
+
+<!-- Scripts -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="{% static 'js/vendor/bootstrap.min.js' %}"></script>
-
+<script>
+    // Validación del formulario
+    (function() {
+        'use strict';
+        window.addEventListener('load', function() {
+            var forms = document.getElementsByClassName('needs-validation');
+            var validation = Array.prototype.filter.call(forms, function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+    })();
+</script>
+</body>
+</html>
 {% endblock %}

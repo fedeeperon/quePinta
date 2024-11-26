@@ -68,6 +68,7 @@ class Evento(models.Model):
     tipo_entrada = models.CharField(max_length=100, blank=False)
     entradas_promocion = models.PositiveIntegerField(blank=False)
 
+    creador = models.ForeignKey(User, on_delete=models.CASCADE)
     def __str__(self):
         return self.nombre
 

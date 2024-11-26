@@ -1,39 +1,29 @@
-from django.shortcuts import render
-from .models import Evento, Reserva
-
-from django.shortcuts import render, redirect
-
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.forms import AuthenticationForm
-
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.views.generic import ListView, CreateView
 from django.urls import reverse_lazy, reverse
 
 def index(request):
     return render(request, 'service.html')
 
-from django.shortcuts import render, get_object_or_404
 from django.views import View
 from .models import Reserva, Evento, Estado, Promocion
 
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.contrib import messages
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-from django.http import JsonResponse
-from django.shortcuts import redirect
-from decimal import Decimal
-from django.shortcuts import render, get_object_or_404
-from django.utils import timezone
-from django.contrib import messages
 
+from django.http import JsonResponse
+from decimal import Decimal
+from django.template.defaultfilters import register
 
 
 class ReservaListView(View):
     def get(self, request):
         reservas = Reserva.objects.all()
-        return render(request, 'list.html', {'reservas': reservas})
+        return render(request, 'reserva.html', {'reservas': reservas})
 
 class ReservaDetailView(View):
     def get(self, request, reserva_id):
@@ -109,6 +99,7 @@ class EventCreateView(LoginRequiredMixin, CreateView):
         return super().form_invalid(form)
 
 
+
 # Logica de requerimento de inicio sesion para reservar eventos
 @login_required
 def reservar_evento(request, evento_id):
@@ -163,3 +154,7 @@ def user_login(request):
         form = AuthenticationForm()
 
     return render(request, 'login.html', {'form': form, 'register': reverse('register')})
+
+def detalle_reserva(request, reserva_id):
+    reserva = get_object_or_404(Reserva, id=reserva_id)
+    return render(request, 'reserva.html', {'reserva': reserva})

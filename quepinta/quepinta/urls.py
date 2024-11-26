@@ -32,6 +32,8 @@ urlpatterns = [
     path('reservas/', views.ReservaListView.as_view(), name='lista_reservas'),
     path('reservas/<int:reserva_id>/', views.ReservaDetailView.as_view(), name='detalle_reserva'),
     path('reservas/crear/', views.CrearReservaView.as_view(), name='crear_reserva'),
+    path('reservar-evento/', views.reservar_evento, name='reservar_evento'),
+    path('reserva/<int:reserva_id>/', views.detalle_reserva, name='detalle_reserva'),
 
     path('eventos/', EventListView.as_view(), name='lista_eventos'),
     path('eventos/crear/', EventCreateView.as_view(), name='crear_evento'),

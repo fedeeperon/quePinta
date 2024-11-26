@@ -6,6 +6,12 @@ class EventoForm(forms.ModelForm):
     class Meta:
         model = Evento
         fields = ['nombre', 'descripcion', 'fecha_evento', 'cantidad_entradas_disponibles', 'precio', 'promocion', 'organizacion', 'tipo_entrada', 'entradas_promocion']
+        widgets = {
+                'fecha_evento': forms.DateInput(attrs={
+                    'type': 'date',  # Usa un input HTML tipo date
+                    'class': 'form-control',
+                }),
+        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

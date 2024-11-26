@@ -854,7 +854,6 @@
                         </p>
                         <p><strong>Organización:</strong> {{ evento.organizacion }}</p>
                         <p><strong>Precio:</strong> {{ evento.precio }}</p>
-                        <p><strong>Organización:</strong> {{ evento.organizacion }}</p>
     
                         {% if user.is_authenticated and evento.cantidad_entradas_disponibles > 0 %}
                         <form action="{% url 'reservar_evento' evento.id %}" method="POST">
@@ -871,7 +870,12 @@
                             </div>
                         </form>
                         {% else %}
-                        <p><a href="{% url 'login' %}" class="btn btn-secondary">Inicia sesión para reservar</a></p>
+                            {% if evento.cantidad_entradas_disponibles == 0 %}
+                            <p><a class="btn btn-secondary" style="pointer-events: none;">Agotadas</a></p>
+                            {% endif %}
+                            {% if not user.is_authenticated %}
+                            <p><a href="{% url 'login' %}" class="btn btn-secondary">Inicia sesión para reservar</a></p>
+                            {% endif %}
                         {% endif %}
                     </div>
                 </div>
@@ -894,6 +898,12 @@
                         }
                     }
                 </script>
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-create-event">
+                        <i class="fas fa-plus-circle mr-2"></i>Reservar Evento
+                    </button>
+                </div>
+            </form>
             </div>
         </div>
     </div>
